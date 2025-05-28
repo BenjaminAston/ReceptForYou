@@ -5,5 +5,5 @@ export default function Home() {
   const { recipes, fetchRecipes, loading } = useRecipes();
 
 
-  """fortsätt"""
+
 }
