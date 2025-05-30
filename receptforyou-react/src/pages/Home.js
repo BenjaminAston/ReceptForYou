@@ -9,10 +9,6 @@ export default function Home() {
   const [filters, setFilters] = useState({ diet: '', intolerances: '' });
   const { recipes, fetchRecipes, loading } = useRecipes();
  
-  const addIngredient = (ingredient) => {
-    setIngredients(previous => [...previous, ingredient]);
-  };
-
   const handleFetch = () => {
     fetchRecipes(ingredients, filters);
   };
@@ -20,7 +16,7 @@ export default function Home() {
   return (
     <div>
       <Input
-        ingredients={addIngredient}
+        ingredients={ingredients}
         setIngredients={setIngredients}
         onSearch={handleFetch}
       />
