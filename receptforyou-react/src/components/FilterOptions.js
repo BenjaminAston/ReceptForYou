@@ -9,6 +9,7 @@ const FilterOptions = ({ filters, setFilters }) => {
     <div>
       <select name="diet" onChange={handleChange} value={filters.diet}>
         <option value="" disabled hidden>Kosttyp</option>
+        <option value="">Ingen</option>
         <option value="vegetarian">Vegetarisk</option>
         <option value="vegan">Vegansk</option>
         <option value="gluten free">Glutenfri</option>
@@ -16,6 +17,7 @@ const FilterOptions = ({ filters, setFilters }) => {
 
       <select name="intolerances" onChange={handleChange} value={filters.intolerances}>
         <option value="" disabled hidden>Allergier</option>
+        <option value="">Ingen</option>
         <option value="dairy">Laktos</option>
         <option value="gluten">Gluten</option>
         <option value="peanut">Nötter</option>
