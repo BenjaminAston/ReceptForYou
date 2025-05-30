@@ -1,7 +1,8 @@
 import React, { useState } from 'react'; 
-import InputField from '../components/Input';
+import Input from '../components/Input';
 import { useRecipes } from '../app/useRecipes';
 import FilterOptions from '../components/FilterOptions';
+import RecipeList from '../components/RecipeList';
 
 export default function Home() {
   const [ingredients, setIngredients] = useState([]);
@@ -18,17 +19,15 @@ export default function Home() {
 
   return (
     <div>
-      <InputField onAddIngredient={addIngredient} />
+      <Input
+        ingredients={addIngredient}
+        setIngredients={setIngredients}
+        onSearch={handleFetch}
+      />
       <FilterOptions filters={filters} setFilters={setFilters} />
-      <button onClick={handleFetch}>Hämta recept</button>
-
-      {loading && <p>Laddar recept</p>}
-      {!loading && recipes.map((recipe) => (
-        <div key={recipe.id}>
-          <h3>{recipe.title}</h3>
-          <img src={recipe.image} alt={recipe.title} />
-        </div>
-      ))}
+      {loading && <p>Laddar recept...</p>}
+      {!loading && <RecipeList recipes={recipes} />}
     </div>
+    
   );
 }

@@ -1,46 +1,56 @@
 import React, { useState, useEffect } from 'react';
 
-const Input = ({ onAddIngredient }) => {
+const Input = ({ ingredients, setIngredients, onSearch }) => {
   const [inputValue, setInputValue] = useState('');
 
-  // Läs ingredienser från localStorage när komponenten mountas
   useEffect(() => {
     const saved = localStorage.getItem('userIngredients');
     if (saved) {
-      JSON.parse(saved).forEach(ingredient => onAddIngredient(ingredient));
+      const parsed = JSON.parse(saved);
+      setIngredients(parsed);
     }
-  }, [onAddIngredient]);
+  }, [setIngredients]);
 
-  const handleSubmit = (e) => {
+  const handleAdd = (e) => {
     e.preventDefault();
-
     const trimmed = inputValue.trim();
-    if (trimmed.length > 0) {
-      onAddIngredient(trimmed);
-
-      // Spara i localStorage – hämta först befintliga ingredienser och lägg till ny
-      const saved = localStorage.getItem('userIngredients');
-      const savedIngredients = saved ? JSON.parse(saved) : [];
-      if (!savedIngredients.includes(trimmed)) {
-        savedIngredients.push(trimmed);
-        localStorage.setItem('userIngredients', JSON.stringify(savedIngredients));
-      }
+    if (trimmed && !ingredients.includes(trimmed)) {
+      const updated = [...ingredients, trimmed];
+      setIngredients(updated);
+      localStorage.setItem('userIngredients', JSON.stringify(updated));
+    }
 
       setInputValue('');
-    }
+  };
+
+  const handleRemove = (ingredientToRemove) => {
+    const updated = ingredients.filter((ing) => ing !== ingredientToRemove);
+    setIngredients(updated);
+    localStorage.setItem('userIngredients', JSON.stringify(updated));
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        value={inputValue}
-        onChange={(e) => setInputValue(e.target.value)}
-        placeholder="Lägg till ingrediens"
-      />
-      <button type="submit">Sök recept</button>
-    </form>
+    <div>
+      <form onSubmit={handleAdd}>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Lägg till ingrediens"
+        />
+        <button type="submit">Lägg till</button>
+      </form>
+
+      <ul>
+        {ingredients.map((ing, i) => (
+          <li key={i}>
+            {ing} <button onClick={() => handleRemove(ing)}>❌</button>
+          </li>
+        ))}
+      </ul>
+
+      <button onClick={onSearch}>Hämta recept</button>
+    </div>
   );
 };
-
 export default Input;
