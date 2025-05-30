@@ -21,10 +21,11 @@ export const useRecipes = () => {
             intolerances,
             number: 5,
             addRecipeInformation: true,
-            apiKey: '893747d593ca4d56ada26778bcbf9b48',
+            apiKey: '6b1a9b4a2c004bc2af990763c803e766',
           }
         });
-    
+        
+        console.log("API-response:", res.data);
         setRecipes(res.data.results);
       } catch (err) {
         console.error('Fel vid hämtning:', err);
