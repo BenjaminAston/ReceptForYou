@@ -8,9 +8,9 @@ export default function Home() {
   const [ingredients, setIngredients] = useState([]);
   const [filters, setFilters] = useState({ diet: '', intolerances: '' });
   const { recipes, fetchRecipes, loading } = useRecipes();
- 
-  const handleFetch = () => {
-    fetchRecipes(ingredients, filters);
+
+  const handleFetch = (ings) => {
+    fetchRecipes(ings, filters);
   };
 
   return (

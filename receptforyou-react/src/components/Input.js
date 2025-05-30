@@ -1,32 +1,61 @@
 import React, { useState, useEffect } from 'react';
 
 const Input = ({ ingredients, setIngredients, onSearch }) => {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('userIngredients');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      setIngredients(parsed);
-    }
-  }, [setIngredients]);
+    localStorage.setItem('userIngredients', JSON.stringify(ingredients));
+  }, [ingredients]);
 
   const handleAdd = (e) => {
     e.preventDefault();
-    const trimmed = inputValue.trim();
+    const trimmed = inputValue.trim().toLowerCase();
     if (trimmed && !ingredients.includes(trimmed)) {
       const updated = [...ingredients, trimmed];
       setIngredients(updated);
-      localStorage.setItem('userIngredients', JSON.stringify(updated));
+      updateIngredientHistory(trimmed);
     }
-
-      setInputValue('');
+    setInputValue('');
   };
 
   const handleRemove = (ingredientToRemove) => {
     const updated = ingredients.filter((ing) => ing !== ingredientToRemove);
     setIngredients(updated);
-    localStorage.setItem('userIngredients', JSON.stringify(updated));
+  };
+
+  const handleGenerateFromFridge = () => {
+    const savedHistory = localStorage.getItem('ingredientHistoryCounts');
+    if (savedHistory) {
+      try {
+        const historyCounts = JSON.parse(savedHistory);
+        const sortedIngredients = Object.keys(historyCounts)
+          .sort((a, b) => historyCounts[b] - historyCounts[a]);
+        if (sortedIngredients.length > 0) {
+          setIngredients(sortedIngredients);
+          onSearch(sortedIngredients);
+        } else {
+          alert('Inga sparade ingredienser i historiken.');
+        }
+      } catch (e) {
+        console.error('Kunde inte läsa historik från localStorage:', e);
+      }
+    } else {
+      alert('Ingen historik hittades.');
+    }
+  };
+
+  const updateIngredientHistory = (newIngredient) => {
+    const savedHistory = localStorage.getItem('ingredientHistoryCounts');
+    let historyCounts = {};
+    if (savedHistory) {
+      try {
+        historyCounts = JSON.parse(savedHistory);
+      } catch (e) {
+        console.error('Kunde inte läsa historik från localStorage:', e);
+      }
+    }
+    historyCounts[newIngredient] = (historyCounts[newIngredient] || 0) + 1;
+    localStorage.setItem('ingredientHistoryCounts', JSON.stringify(historyCounts));
   };
 
   return (
@@ -37,6 +66,7 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           placeholder="Lägg till ingrediens"
+          autoComplete="off"
         />
         <button type="submit">Lägg till</button>
       </form>
@@ -49,8 +79,10 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
         ))}
       </ul>
 
-      <button onClick={onSearch}>Hämta recept</button>
+      <button onClick={() => onSearch(ingredients)}>Hämta recept</button>
+      <button onClick={handleGenerateFromFridge}>Det här brukar jag ha i kylen</button>
     </div>
   );
 };
+
 export default Input;
