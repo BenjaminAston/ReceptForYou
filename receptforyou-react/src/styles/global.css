@@ -1,5 +1,4 @@
 /* src/styles/global.css */
-
 :root {
   --primary-color: #4a6fa5;
   --primary-hover: #3b5a8a;
@@ -16,7 +15,6 @@
   --border-radius: 8px;
 }
 
-/* Reset och box-sizing */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -47,6 +45,7 @@ body {
 }
 
 .header h1 {
+  color: var(--white);
   margin: 0;
 }
 
@@ -60,7 +59,7 @@ body {
 .favorites-btn {
   padding: 0.75rem 1.5rem;
   background-color: var(--primary-color);
-  color: var(--white);
+  color: white;
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -97,9 +96,8 @@ body {
 }
 
 /* Input and Filter Containers */
-.input-container,
-.filter-container {
-  background-color: var(--white);
+.input-container, .filter-container {
+  background-color: white;
   padding: 1.5rem;
   border-radius: var(--border-radius);
   box-shadow: var(--card-shadow);
@@ -134,7 +132,7 @@ body {
 .add-btn {
   padding: 0 1.25rem;
   background-color: var(--secondary-color);
-  color: var(--white);
+  color: white;
   border: none;
   border-radius: var(--border-radius);
   cursor: pointer;
@@ -190,7 +188,6 @@ body {
   flex: 1;
   min-width: 200px;
 }
-
 
 /* Responsive Filter */
 @media (max-width: 480px) {
@@ -280,7 +277,7 @@ body {
 /* Favorites */
 .favorites-container {
   padding: 2rem;
-  background-color: var(--white);
+  background-color: white;
   border-radius: var(--border-radius);
   box-shadow: var(--card-shadow);
   margin-bottom: 2rem;
@@ -302,8 +299,7 @@ body {
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .input-container,
-  .filter-container {
+  .input-container, .filter-container {
     padding: 1rem;
   }
 

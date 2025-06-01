@@ -5,12 +5,9 @@ import FilterOptions from "../components/FilterOptions";
 import RecipeList from "../components/RecipeList";
 import Favorites from "../pages/Favorites";
 import MoodSelector from "../components/MoodSelector";
-import FridgeGame from "../components/FridgeGame";
-import '../styles/global.css';
 
 const moodToIngredients = {
   tired: ["pasta", "cheese"],
-  festive: ["shrimp", "champagne"],
   stressed: ["fast food", "wrap"],
   happy: ["fruit", "berries"],
 };
@@ -29,9 +26,7 @@ export default function Home() {
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) {
-          setFavorites(parsed);
-        }
+        if (Array.isArray(parsed)) setFavorites(parsed);
       } catch (error) {
         console.error("Error parsing favorites:", error);
       }
@@ -66,10 +61,7 @@ export default function Home() {
   };
 
   const handleFetch = (ings) => {
-    if (!ings || ings.length === 0) {
-      console.warn("No ingredients to fetch.");
-      return;
-    }
+    if (!ings || ings.length === 0) return;
     fetchRecipes(ings, filters);
     setShowFavorites(false);
   };
@@ -83,18 +75,8 @@ export default function Home() {
     }
   }, [mood, filters, fetchRecipes]);
 
-  const handleFridgeIngredientsChange = (ings) => {
-    setIngredients(ings);
-    fetchRecipes(ings, filters);
-    setShowFavorites(false);
-  };
-
-  useEffect(() => {
-    console.log("Recipes loaded:", recipes);
-  }, [recipes]);
-
   return (
-    <div className="container" style={{ position: "relative", minHeight: "100vh" }}>
+    <div className="container" style={{ minHeight: "100vh" }}>
       <div className="header-actions" style={{ marginBottom: "1rem" }}>
         <button
           onClick={() => setShowFavorites(!showFavorites)}
@@ -107,11 +89,7 @@ export default function Home() {
       {!showFavorites ? (
         <>
           <div className="input-container" style={{ marginBottom: "1rem" }}>
-            <Input
-              ingredients={ingredients}
-              setIngredients={setIngredients}
-              onSearch={handleFetch}
-            />
+            <Input ingredients={ingredients} setIngredients={setIngredients} onSearch={handleFetch} />
           </div>
 
           <div className="filter-container" style={{ marginBottom: "1.5rem" }}>
@@ -119,21 +97,13 @@ export default function Home() {
             <FilterOptions filters={filters} setFilters={setFilters} />
           </div>
 
-          <FridgeGame onIngredientsChange={handleFridgeIngredientsChange} />
-
           {loading && <p className="loading-text">Loading recipes...</p>}
 
           {!loading && recipes.length > 0 && (
-            <RecipeList
-              recipes={recipes}
-              favorites={favorites}
-              toggleFavorite={toggleFavorite}
-            />
+            <RecipeList recipes={recipes} favorites={favorites} toggleFavorite={toggleFavorite} />
           )}
 
-          {!loading && recipes.length === 0 && (
-            <p>No recipes found. Try different ingredients or filters.</p>
-          )}
+          {!loading && recipes.length === 0 && <p>No recipes found. Try different ingredients or filters.</p>}
         </>
       ) : (
         <Favorites favorites={favorites} toggleFavorite={toggleFavorite} />

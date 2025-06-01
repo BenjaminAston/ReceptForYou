@@ -1,5 +1,4 @@
 import React from "react";
-import '../styles/global.css';
 
 const FilterOptions = ({ filters, setFilters }) => {
   const handleChange = (e) => {
@@ -7,37 +6,25 @@ const FilterOptions = ({ filters, setFilters }) => {
   };
 
   return (
-    <div className="filter-container">
-      <h3 className="filter-title">Filtrera recept</h3>
-      <div className="filter-options">
-        <select 
-          name="diet" 
-          onChange={handleChange} 
-          value={filters.diet}
-          className="filter-select"
-        >
-          <option value="" disabled hidden>Kosttyp</option>
-          <option value="">Ingen</option>
-          <option value="vegetarian">Vegetarisk</option>
-          <option value="vegan">Vegansk</option>
-          <option value="gluten free">Glutenfri</option>
-        </select>
+    <div className="filter-options">
+      <select name="diet" onChange={handleChange} value={filters.diet} className="filter-select">
+        <option value="" disabled hidden>Kosttyp</option>
+        <option value="">Ingen</option>
+        <option value="vegetarian">Vegetarisk</option>
+        <option value="vegan">Vegansk</option>
+        <option value="gluten free">Glutenfri</option>
+      </select>
 
-        <select 
-          name="intolerances" 
-          onChange={handleChange} 
-          value={filters.intolerances}
-          className="filter-select"
-        >
-          <option value="" disabled hidden>Allergier</option>
-          <option value="">Ingen</option>
-          <option value="dairy">Laktos</option>
-          <option value="gluten">Gluten</option>
-          <option value="peanut">Nötter</option>
-        </select>
-      </div>
+      <select name="intolerances" onChange={handleChange} value={filters.intolerances} className="filter-select">
+        <option value="" disabled hidden>Allergier</option>
+        <option value="">Ingen</option>
+        <option value="dairy">Laktos</option>
+        <option value="gluten">Gluten</option>
+        <option value="peanut">Nötter</option>
+      </select>
     </div>
   );
 };
 
 export default FilterOptions;
+
