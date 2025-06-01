@@ -9,7 +9,6 @@ import '../styles/global.css';
 
 const moodToIngredients = {
   trött: ["pasta", "cheese", "banan", "mjölk"],
-  festlig: ["shrimp", "champagne", "ost", "kaviar"],
   stressad: ["kyckling", "ris", "wraps", "salsa"],
   glad: ["bär", "frukt", "yoghurt", "honung"]
 };

@@ -5,7 +5,6 @@ import '../styles/global.css';
 const moodOptions = [
   { value: "", label: "Välj humör" },
   { value: "trött", label: "Trött - behöver energi" },
-  { value: "festlig", label: "Festlig - något speciellt" },
   { value: "stressad", label: "Stressad - snabbt och enkelt" },
   { value: "glad", label: "Glad - lätt och fräscht" },
 ];

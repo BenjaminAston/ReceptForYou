@@ -21,7 +21,7 @@ export const useRecipes = () => {
           intolerances,
           number: 10,
           addRecipeInformation: true,
-          apiKey: "3cf7dc6867b446649dcaa1be06f2825e"
+          apiKey: "6b1a9b4a2c004bc2af990763c803e766"
         },
       });
 
