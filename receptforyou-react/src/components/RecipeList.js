@@ -1,5 +1,6 @@
-import React from 'react';
-import RecipeCard from './RecipeCard';
+import React from "react";
+import RecipeWithMusic from "./RecipeWithMusic";
+import '../styles/global.css';
 
 const RecipeList = ({ recipes }) => {
   if (recipes.length === 0) {
@@ -7,10 +8,23 @@ const RecipeList = ({ recipes }) => {
   }
 
   return (
-    <div style={{ display: 'grid', gap: '1rem', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}>
-      {recipes.map((recipe) => (
-        <RecipeCard key={recipe.id} recipe={recipe} />
-      ))}
+    <div className="grid">
+      {recipes.map((recipe) => {
+        const isFavorite = favorites.some(
+          (fav) =>
+            (fav.idMeal && fav.idMeal === recipe.idMeal) ||
+            (fav.id && fav.id === recipe.id)
+        );
+
+        return (
+          <RecipeWithMusic
+            key={recipe.idMeal || recipe.id}
+            recipe={recipe}
+            isFavorite={isFavorite}
+            toggleFavorite={toggleFavorite}
+          />
+        );
+      })}
     </div>
   );
 };
