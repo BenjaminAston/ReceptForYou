@@ -1,7 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 
-// Hook för att hämta recept från API
 export const useRecipes = () => {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -20,9 +19,9 @@ export const useRecipes = () => {
           includeIngredients: ingredients.join(","),
           diet,
           intolerances,
-          number: 5,
+          number: 10,
           addRecipeInformation: true,
-          apiKey: "6b1a9b4a2c004bc2af990763c803e766",
+          apiKey: '6b1a9b4a2c004bc2af990763c803e766',
         },
       });
 

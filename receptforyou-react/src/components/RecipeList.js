@@ -4,15 +4,11 @@ import '../styles/global.css';
 
 const RecipeList = ({ recipes, favorites, toggleFavorite }) => {
   if (!recipes || recipes.length === 0) {
-    return (
-      <div className="no-recipes">
-        <p>No recipes found. Try different ingredients or filters.</p>
-      </div>
-    );
+    return <p className="no-recipes">Inga recept hittades.</p>;
   }
 
   return (
-    <div className="recipe-grid">
+    <div className="grid">
       {recipes.map((recipe) => {
         const isFavorite = favorites.some(
           (fav) => fav.id === (recipe.id || recipe.idMeal)
@@ -20,7 +16,7 @@ const RecipeList = ({ recipes, favorites, toggleFavorite }) => {
 
         return (
           <RecipeCard
-            key={recipe.id || recipe.idMeal}
+            key={recipe.idMeal || recipe.id}
             recipe={recipe}
             isFavorite={isFavorite}
             toggleFavorite={toggleFavorite}
