@@ -8,7 +8,11 @@ function App() {
     <div className="App">
       <header className="header">
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
         <h1>ReceptForYou Test</h1>
+=======
+        <h1>ReceptForYou</h1>
+>>>>>>> Stashed changes
 =======
         <h1>ReceptForYou</h1>
 >>>>>>> Stashed changes
@@ -22,6 +26,10 @@ function App() {
 
 export default App;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 =======
 
 >>>>>>> Stashed changes
