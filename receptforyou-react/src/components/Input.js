@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 const Input = ({ ingredients, setIngredients, onSearch }) => {
-  const [inputValue, setInputValue] = useState([]);
+  const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
     localStorage.setItem('userIngredients', JSON.stringify(ingredients));
@@ -28,8 +28,7 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
     if (savedHistory) {
       try {
         const historyCounts = JSON.parse(savedHistory);
-        const sortedIngredients = Object.keys(historyCounts)
-          .sort((a, b) => historyCounts[b] - historyCounts[a]);
+        const sortedIngredients = Object.keys(historyCounts).sort((a, b) => historyCounts[b] - historyCounts[a]);
         if (sortedIngredients.length > 0) {
           setIngredients(sortedIngredients);
           onSearch(sortedIngredients);
@@ -59,28 +58,44 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleAdd}>
-        <input
-          type="text"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Lägg till ingrediens"
-          autoComplete="off"
-        />
-        <button type="submit">Lägg till</button>
+    <div className="input-container">
+      <form onSubmit={handleAdd} className="input-form">
+        <div className="input-group">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Lägg till ingrediens..."
+            autoComplete="off"
+            className="input-field"
+          />
+          <button type="submit" className="add-btn">+</button>
+        </div>
       </form>
 
-      <ul>
-        {ingredients.map((ing, i) => (
-          <li key={i}>
-            {ing} <button onClick={() => handleRemove(ing)}>❌</button>
-          </li>
-        ))}
-      </ul>
+      {ingredients.length > 0 && (
+        <div className="ingredients-list-container">
+          <ul className="ingredients-list">
+            {ingredients.map((ing, i) => (
+              <li key={i} className="ingredient-item">
+                <span>{ing}</span>
+                <button onClick={() => handleRemove(ing)} className="remove-btn" aria-label={`Ta bort ${ing}`}>
+                  &times;
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
-      <button onClick={() => onSearch(ingredients)}>Hämta recept</button>
-      <button onClick={handleGenerateFromFridge}>Det här brukar jag ha i kylen</button>
+      <div className="action-buttons">
+        <button onClick={() => onSearch(ingredients)} className="btn" disabled={ingredients.length === 0}>
+          Hämta recept
+        </button>
+        <button onClick={handleGenerateFromFridge} className="btn btn-secondary">
+          Det här brukar jag ha i kylen
+        </button>
+      </div>
     </div>
   );
 };

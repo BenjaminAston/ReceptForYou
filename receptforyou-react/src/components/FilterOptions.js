@@ -6,8 +6,8 @@ const FilterOptions = ({ filters, setFilters }) => {
   };
 
   return (
-    <div>
-      <select name="diet" onChange={handleChange} value={filters.diet}>
+    <div className="filter-options">
+      <select name="diet" onChange={handleChange} value={filters.diet} className="filter-select">
         <option value="" disabled hidden>Kosttyp</option>
         <option value="">Ingen</option>
         <option value="vegetarian">Vegetarisk</option>
@@ -15,7 +15,7 @@ const FilterOptions = ({ filters, setFilters }) => {
         <option value="gluten free">Glutenfri</option>
       </select>
 
-      <select name="intolerances" onChange={handleChange} value={filters.intolerances}>
+      <select name="intolerances" onChange={handleChange} value={filters.intolerances} className="filter-select">
         <option value="" disabled hidden>Allergier</option>
         <option value="">Ingen</option>
         <option value="dairy">Laktos</option>
