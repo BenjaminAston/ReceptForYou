@@ -5,11 +5,13 @@ import FilterOptions from "../components/FilterOptions";
 import RecipeList from "../components/RecipeList";
 import Favorites from "../pages/Favorites";
 import MoodSelector from "../components/MoodSelector";
+import '../styles/global.css';
 
 const moodToIngredients = {
-  tired: ["pasta", "cheese"],
-  stressed: ["fast food", "wrap"],
-  happy: ["fruit", "berries"],
+  trött: ["pasta", "cheese", "banan", "mjölk"],
+  festlig: ["shrimp", "champagne", "ost", "kaviar"],
+  stressad: ["kyckling", "ris", "wraps", "salsa"],
+  glad: ["bär", "frukt", "yoghurt", "honung"]
 };
 
 export default function Home() {
@@ -21,75 +23,100 @@ export default function Home() {
   const [favorites, setFavorites] = useState([]);
   const [showFavorites, setShowFavorites] = useState(false);
 
+  // Load favorites from localStorage
   useEffect(() => {
     const saved = localStorage.getItem("favorites");
     if (saved) {
       try {
         const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) setFavorites(parsed);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setFavorites(parsed);
+        }
       } catch (error) {
         console.error("Error parsing favorites:", error);
+        localStorage.removeItem("favorites");
       }
     }
   }, []);
 
+  // Save favorites to localStorage
   useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
+    if (favorites.length > 0) {
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+    } else {
+      localStorage.removeItem("favorites");
+    }
   }, [favorites]);
 
+  // Add/remove favorites
   const toggleFavorite = (recipe) => {
     setFavorites((prev) => {
       const recipeToSave = {
         ...recipe,
-        idMeal: recipe.idMeal || recipe.id,
-        id: recipe.id || recipe.idMeal,
-        category: recipe.strCategory || filters.diet || "Other",
+        id: recipe.id || recipe.idMeal || Date.now(),
+        title: recipe.title || recipe.strMeal,
+        image: recipe.image || recipe.strMealThumb,
+        sourceUrl: recipe.sourceUrl || recipe.strSource
       };
 
-      const exists = prev.some(
-        (fav) => fav.idMeal === recipeToSave.idMeal || fav.id === recipeToSave.id
-      );
+      const exists = prev.some(fav => fav.id === recipeToSave.id);
 
       if (exists) {
-        return prev.filter(
-          (fav) => fav.idMeal !== recipeToSave.idMeal && fav.id !== recipeToSave.id
-        );
+        return prev.filter(fav => fav.id !== recipeToSave.id);
       } else {
         return [...prev, recipeToSave];
       }
     });
   };
 
+  // Fetch recipes based on ingredients and filters
   const handleFetch = (ings) => {
-    if (!ings || ings.length === 0) return;
+    if (!ings || ings.length === 0) {
+      console.warn("No ingredients to fetch.");
+      setIngredients([]);
+      return;
+    }
     fetchRecipes(ings, filters);
     setShowFavorites(false);
   };
 
+  // When mood changes: update ingredients AND fetch recipes right away
   useEffect(() => {
-    if (mood && moodToIngredients[mood]) {
+    if (mood === "") {
+      // Återställ om användaren väljer "Välj humör" igen
+      setIngredients([]);
+    } else if (mood && moodToIngredients[mood]) {
       const moodIngs = moodToIngredients[mood];
       setIngredients(moodIngs);
       fetchRecipes(moodIngs, filters);
       setShowFavorites(false);
     }
-  }, [mood, filters, fetchRecipes]);
+  }, [mood]);
+
+  // Debug recipes in console
+  useEffect(() => {
+    console.log("Recipes loaded:", recipes);
+  }, [recipes]);
 
   return (
-    <div className="container" style={{ minHeight: "100vh" }}>
+    <div className="container" style={{ position: "relative", minHeight: "100vh" }}>
       <div className="header-actions" style={{ marginBottom: "1rem" }}>
         <button
           onClick={() => setShowFavorites(!showFavorites)}
           className={`favorites-btn ${showFavorites ? "secondary-btn" : ""}`}
         >
-          {showFavorites ? "Show all recipes" : `My favorites (${favorites.length})`}
+          {showFavorites ? "Visa alla recept" : `Mina favoriter (${favorites.length})`}
         </button>
       </div>
 
       {!showFavorites ? (
         <>
           <div className="input-container" style={{ marginBottom: "1rem" }}>
-            <Input ingredients={ingredients} setIngredients={setIngredients} onSearch={handleFetch} />
+            <Input
+              ingredients={ingredients}
+              setIngredients={setIngredients}
+              onSearch={handleFetch}
+            />
           </div>
 
           <div className="filter-container" style={{ marginBottom: "1.5rem" }}>
@@ -97,13 +124,19 @@ export default function Home() {
             <FilterOptions filters={filters} setFilters={setFilters} />
           </div>
 
-          {loading && <p className="loading-text">Loading recipes...</p>}
+          {loading && <p className="loading-text">Hämtar recept...</p>}
 
           {!loading && recipes.length > 0 && (
-            <RecipeList recipes={recipes} favorites={favorites} toggleFavorite={toggleFavorite} />
+            <RecipeList
+              recipes={recipes}
+              favorites={favorites}
+              toggleFavorite={toggleFavorite}
+            />
           )}
 
-          {!loading && recipes.length === 0 && <p>No recipes found. Try different ingredients or filters.</p>}
+          {!loading && recipes.length === 0 && (
+            <p>Inga recept hittades. Prova med andra ingredienser eller filter.</p>
+          )}
         </>
       ) : (
         <Favorites favorites={favorites} toggleFavorite={toggleFavorite} />
@@ -111,4 +144,3 @@ export default function Home() {
     </div>
   );
 }
-

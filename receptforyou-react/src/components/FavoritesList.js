@@ -22,4 +22,3 @@ export default function FavoritesList({ favorites, toggleFavorite }) {
     </div>
   );
 }
-

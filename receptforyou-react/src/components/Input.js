@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import '../styles/global.css';
 
 const Input = ({ ingredients, setIngredients, onSearch }) => {
   const [inputValue, setInputValue] = useState('');
@@ -29,8 +28,7 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
     if (savedHistory) {
       try {
         const historyCounts = JSON.parse(savedHistory);
-        const sortedIngredients = Object.keys(historyCounts)
-          .sort((a, b) => historyCounts[b] - historyCounts[a]);
+        const sortedIngredients = Object.keys(historyCounts).sort((a, b) => historyCounts[b] - historyCounts[a]);
         if (sortedIngredients.length > 0) {
           setIngredients(sortedIngredients);
           onSearch(sortedIngredients);
@@ -81,11 +79,7 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
             {ingredients.map((ing, i) => (
               <li key={i} className="ingredient-item">
                 <span>{ing}</span>
-                <button 
-                  onClick={() => handleRemove(ing)} 
-                  className="remove-btn"
-                  aria-label={`Ta bort ${ing}`}
-                >
+                <button onClick={() => handleRemove(ing)} className="remove-btn" aria-label={`Ta bort ${ing}`}>
                   &times;
                 </button>
               </li>
@@ -94,43 +88,11 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
         </div>
       )}
 
-      <div className="action-buttons" style={{ 
-        display: 'flex', 
-        gap: '1rem', 
-        marginTop: '1.5rem',
-        flexWrap: 'wrap'
-      }}>
-        <button 
-          onClick={() => onSearch(ingredients)} 
-          className="search-btn"
-          disabled={ingredients.length === 0}
-          style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: ingredients.length === 0 ? '#cccccc' : '#4a6fa5',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: ingredients.length === 0 ? 'not-allowed' : 'pointer',
-            flex: 1,
-            minWidth: '120px'
-          }}
-        >
+      <div className="action-buttons">
+        <button onClick={() => onSearch(ingredients)} className="btn" disabled={ingredients.length === 0}>
           Hämta recept
         </button>
-        <button 
-          onClick={handleGenerateFromFridge} 
-          className="fridge-btn"
-          style={{
-            padding: '0.75rem 1.5rem',
-            backgroundColor: 'white',
-            color: '#4a6fa5',
-            border: '2px solid #4a6fa5',
-            borderRadius: '4px',
-            cursor: 'pointer',
-            flex: 1,
-            minWidth: '120px'
-          }}
-        >
+        <button onClick={handleGenerateFromFridge} className="btn btn-secondary">
           Det här brukar jag ha i kylen
         </button>
       </div>
@@ -139,3 +101,4 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
 };
 
 export default Input;
+

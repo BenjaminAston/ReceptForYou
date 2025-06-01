@@ -21,12 +21,23 @@ const RecipeCard = ({ recipe, isFavorite, toggleFavorite }) => {
         {isFavorite ? "❤️" : "🤍"}
       </button>
 
-      {image && <img src={image} alt={title} className="recipe-image hover-zoom" />}
+      {image && (
+        <img
+          src={image}
+          alt={title}
+          className="recipe-image hover-zoom"
+        />
+      )}
 
       <div className="recipe-card-content">
         <h3>{title}</h3>
         <p>Redo på: {readyInMinutes} minuter</p>
-        <a href={sourceUrl} target="_blank" rel="noopener noreferrer" className="btn">
+        <a
+          href={sourceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn"
+        >
           Gå till recept
         </a>
       </div>
@@ -35,4 +46,3 @@ const RecipeCard = ({ recipe, isFavorite, toggleFavorite }) => {
 };
 
 export default RecipeCard;
-

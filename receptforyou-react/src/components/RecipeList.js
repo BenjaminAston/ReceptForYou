@@ -28,4 +28,3 @@ const RecipeList = ({ recipes, favorites, toggleFavorite }) => {
 };
 
 export default RecipeList;
-
