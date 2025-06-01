@@ -18,4 +18,8 @@ export default function Favorites({ favorites, toggleFavorite }) {
       )}
     </div>
   );
+<<<<<<< Updated upstream
 }
+=======
+}
+>>>>>>> Stashed changes
