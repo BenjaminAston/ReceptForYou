@@ -2,7 +2,6 @@ import React from "react";
 import RecipeCard from "./RecipeCard";
 import '../styles/global.css';
 
-
 const RecipeList = ({ recipes, favorites = [], toggleFavorite }) => {
   if (!recipes || recipes.length === 0) {
     return <p>Inga recept hittades.</p>;
