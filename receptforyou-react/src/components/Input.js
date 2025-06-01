@@ -28,7 +28,9 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
     if (savedHistory) {
       try {
         const historyCounts = JSON.parse(savedHistory);
-        const sortedIngredients = Object.keys(historyCounts).sort((a, b) => historyCounts[b] - historyCounts[a]);
+        const sortedIngredients = Object.keys(historyCounts)
+          .sort((a, b) => historyCounts[b] - historyCounts[a])
+          .slice(0, 5); 
         if (sortedIngredients.length > 0) {
           setIngredients(sortedIngredients);
           onSearch(sortedIngredients);
@@ -42,7 +44,7 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
       alert('Ingen historik hittades.');
     }
   };
-
+  
   const updateIngredientHistory = (newIngredient) => {
     const savedHistory = localStorage.getItem('ingredientHistoryCounts');
     let historyCounts = {};
