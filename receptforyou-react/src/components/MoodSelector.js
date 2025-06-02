@@ -16,7 +16,7 @@ export default function MoodSelector({ mood, setMood }) {
     <div className="mood-selector">
       <select value={mood} onChange={handleChange} className="filter-select">
         {moodOptions.map((option) => (
-          <option key={option.value} value={option.value} disabled={option.value === ""}>
+          <option key={option.value} value={option.value}>
             {option.label}
           </option>
         ))}

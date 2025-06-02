@@ -65,13 +65,16 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (mood && moodToIngredients[mood]) {
+    if (!mood) {
+      setIngredients([]);
+      return;
+    }
+    if (moodToIngredients[mood]) {
       const moodIngs = moodToIngredients[mood];
       setIngredients(moodIngs);
-      fetchRecipes(moodIngs, filters);
       setShowFavorites(false);
     }
-  }, [mood, filters, fetchRecipes]);
+  }, [mood]);
 
   return (
     <div className="container" style={{ minHeight: "100vh" }}>
