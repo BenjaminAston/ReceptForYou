@@ -16,20 +16,11 @@ export default function Home() {
   const [mood, setMood] = useState("");
   const { recipes, fetchRecipes, loading } = useRecipes();
 
-  const [favorites, setFavorites] = useState([]);
-  const [showFavorites, setShowFavorites] = useState(false);
-
-  useEffect(() => {
+  const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed)) setFavorites(parsed);
-      } catch (error) {
-        console.error("Error parsing favorites:", error);
-      }
-    }
-  }, []);
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [showFavorites, setShowFavorites] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -37,23 +28,12 @@ export default function Home() {
 
   const toggleFavorite = (recipe) => {
     setFavorites((prev) => {
-      const recipeToSave = {
-        ...recipe,
-        idMeal: recipe.idMeal || recipe.id,
-        id: recipe.id || recipe.idMeal,
-        category: recipe.strCategory || filters.diet || "Other",
-      };
-
-      const exists = prev.some(
-        (fav) => fav.idMeal === recipeToSave.idMeal || fav.id === recipeToSave.id
-      );
-
+      const recipeId = recipe.idMeal || recipe.id;
+      const exists = prev.some((fav) => fav.idMeal === recipeId || fav.id === recipeId);
       if (exists) {
-        return prev.filter(
-          (fav) => fav.idMeal !== recipeToSave.idMeal && fav.id !== recipeToSave.id
-        );
+        return prev.filter((fav) => (fav.idMeal || fav.id) !== recipeId);
       } else {
-        return [...prev, recipeToSave];
+        return [...prev, { ...recipe, id: recipeId }];
       }
     });
   };
@@ -98,13 +78,10 @@ export default function Home() {
             mood={mood}
             setMood={setMood}
           />
-
           {loading && <p className="loading-text">Loading recipes...</p>}
-
           {!loading && recipes.length > 0 && (
             <RecipeList recipes={recipes} favorites={favorites} toggleFavorite={toggleFavorite} />
           )}
-
           {!loading && recipes.length === 0 && <p>No recipes found. Try different ingredients or filters.</p>}
         </>
       ) : (
