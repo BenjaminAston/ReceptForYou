@@ -18,7 +18,7 @@ const RecipeCard = ({ recipe, isFavorite, toggleFavorite }) => {
         className="favorite-btn"
         aria-label={isFavorite ? "Ta bort från favoriter" : "Lägg till i favoriter"}
       >
-        {isFavorite ? "❤️" : "🤍"}
+        {isFavorite ? "❤️" : "🖤"}
       </button>
 
       {image && (
