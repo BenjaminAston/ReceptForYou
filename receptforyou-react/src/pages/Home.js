@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Input from "../components/Input";
 import { useRecipes } from "../app/useRecipes";
-import FilterOptions from "../components/FilterOptions";
 import RecipeList from "../components/RecipeList";
 import Favorites from "../pages/Favorites";
-import MoodSelector from "../components/MoodSelector";
 
 const moodToIngredients = {
   tired: ["pasta", "cheese"],
@@ -88,14 +86,15 @@ export default function Home() {
 
       {!showFavorites ? (
         <>
-          <div className="input-container" style={{ marginBottom: "1rem" }}>
-            <Input ingredients={ingredients} setIngredients={setIngredients} onSearch={handleFetch} />
-          </div>
-
-          <div className="filter-container" style={{ marginBottom: "1.5rem" }}>
-            <MoodSelector mood={mood} setMood={setMood} />
-            <FilterOptions filters={filters} setFilters={setFilters} />
-          </div>
+          <Input
+            ingredients={ingredients}
+            setIngredients={setIngredients}
+            onSearch={handleFetch}
+            filters={filters}
+            setFilters={setFilters}
+            mood={mood}
+            setMood={setMood}
+          />
 
           {loading && <p className="loading-text">Loading recipes...</p>}
 

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import MoodSelector from './MoodSelector';
+import FilterOptions from './FilterOptions';
 
-const Input = ({ ingredients, setIngredients, onSearch }) => {
+const Input = ({ ingredients, setIngredients, onSearch, filters, setFilters, mood, setMood  }) => {
   const [inputValue, setInputValue] = useState('');
 
   useEffect(() => {
@@ -89,6 +91,11 @@ const Input = ({ ingredients, setIngredients, onSearch }) => {
           </ul>
         </div>
       )}
+
+      <div className="inline-filters">
+        <MoodSelector mood={mood} setMood={setMood} />
+        <FilterOptions filters={filters} setFilters={setFilters} />
+      </div>
 
       <div className="action-buttons">
         <button onClick={() => onSearch(ingredients)} className="btn" disabled={ingredients.length === 0}>
