@@ -52,29 +52,7 @@ export const useRecipes = () => {
         status: err.response?.status,
         data: err.response?.data
       });
-
-      // Specifika felmeddelanden
-      if (err.response?.status === 402) {
-        setError("API quota exceeded. Please try again later.");
-      } else if (err.code === "ECONNABORTED") {
-        setError("Request took too long. Please check your connection.");
-      } else {
-        setError("Failed to fetch recipes. Please try again.");
-      }
-
-      // Fallback-data för utveckling
-      if (process.env.NODE_ENV === "development") {
-        console.warn("Using development mock data");
-        setRecipes([
-          {
-            id: 716429,
-            title: "Pasta with Garlic, Scallions, Cauliflower & Breadcrumbs",
-            image: "https://spoonacular.com/recipeImages/716429-312x231.jpg",
-            readyInMinutes: 45,
-            sourceUrl: "https://spoonacular.com/pasta-with-garlic-scallions-cauliflower-breadcrumbs-716429"
-          }
-        ]);
-      }
+      
     } finally {
       setLoading(false);
     }
