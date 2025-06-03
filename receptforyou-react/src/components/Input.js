@@ -69,7 +69,7 @@ const Input = ({ ingredients, setIngredients, onSearch, filters, setFilters, moo
             type="text"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Lägg till ingrediens..."
+            placeholder="Lägg till ingrediens (engelska)"
             autoComplete="off"
             className="input-field"
           />
