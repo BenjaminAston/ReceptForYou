@@ -1,3 +1,4 @@
+//Komponent för att välja kosttyp och allergier via dropdown-menyer
 import React from "react";
 
 const FilterOptions = ({ filters, setFilters }) => {

@@ -1,3 +1,4 @@
+//Visar sparade favoritrecept med möjlighet att ta bort dem
 import React from "react";
 import RecipeList from "../components/RecipeList";
 import '../styles/global.css';

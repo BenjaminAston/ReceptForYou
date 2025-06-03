@@ -1,3 +1,4 @@
+//Komponent för att välja humör, vilket påverkar automatiskt valda ingredienser
 import React from "react";
 
 const moodOptions = [

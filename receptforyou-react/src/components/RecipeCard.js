@@ -1,3 +1,4 @@
+//Visar en enskild receptruta med bild, titel, tid, länk och favoritknapp
 import React from "react";
 import '../styles/global.css';
 

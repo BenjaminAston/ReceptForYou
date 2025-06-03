@@ -1,3 +1,4 @@
+//Komponent som visar en lista med sparade favoritrecept
 import React from "react";
 import RecipeCard from "./RecipeCard";
 import '../styles/global.css';

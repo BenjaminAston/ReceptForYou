@@ -2,13 +2,16 @@ import React, { useState, useEffect } from 'react';
 import MoodSelector from './MoodSelector';
 import FilterOptions from './FilterOptions';
 
+//Hanterar inmatning av ingredienser, val av filter, humör, samt knappar för att söka recept
 const Input = ({ ingredients, setIngredients, onSearch, filters, setFilters, mood, setMood  }) => {
   const [inputValue, setInputValue] = useState('');
 
+  //Sparar ingredienser till localStorage när de ändras
   useEffect(() => {
     localStorage.setItem('userIngredients', JSON.stringify(ingredients));
   }, [ingredients]);
 
+  //Lägger till en ingrediens
   const handleAdd = (e) => {
     e.preventDefault();
     const trimmed = inputValue.trim().toLowerCase();
@@ -20,11 +23,13 @@ const Input = ({ ingredients, setIngredients, onSearch, filters, setFilters, moo
     setInputValue('');
   };
 
+  //Tar bort en ingrediens
   const handleRemove = (ingredientToRemove) => {
     const updated = ingredients.filter((ing) => ing !== ingredientToRemove);
     setIngredients(updated);
   };
 
+  //Genererar vanliga ingredienser baserat på historik i localStorage
   const handleGenerateFromFridge = () => {
     const savedHistory = localStorage.getItem('ingredientHistoryCounts');
     if (savedHistory) {
@@ -47,6 +52,7 @@ const Input = ({ ingredients, setIngredients, onSearch, filters, setFilters, moo
     }
   };
   
+  //Uppdaterar hur ofta varje ingrediens använts för användaren
   const updateIngredientHistory = (newIngredient) => {
     const savedHistory = localStorage.getItem('ingredientHistoryCounts');
     let historyCounts = {};

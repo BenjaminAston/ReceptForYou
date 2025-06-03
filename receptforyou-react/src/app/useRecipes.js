@@ -6,8 +6,8 @@ export const useRecipes = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  //Funktion för att hämta recept baserat på ingredienser och filter
   const fetchRecipes = async (ingredients, filters = {}) => {
-    // Validera ingredienser
     if (!ingredients || ingredients.length === 0) {
       setRecipes([]);
       setError("Please add at least one ingredient");
@@ -18,15 +18,13 @@ export const useRecipes = () => {
     setError(null);
 
     try {
-      // Skapa parametrar
       const params = {
         includeIngredients: ingredients.join(","),
         number: 50,
         addRecipeInformation: true,
-        apiKey: '6b1a9b4a2c004bc2af990763c803e766' // Din API-nyckel
+        apiKey: '6b1a9b4a2c004bc2af990763c803e766'
       };
 
-      // Lägg till filter om de finns
       if (filters.diet) params.diet = filters.diet;
       if (filters.intolerances) params.intolerances = filters.intolerances;
 
@@ -35,7 +33,7 @@ export const useRecipes = () => {
       // Gör API-anropet
       const res = await axios.get("https://api.spoonacular.com/recipes/complexSearch", {
         params,
-        timeout: 15000 // 15 sekunders timeout
+        timeout: 15000
       });
 
       console.log("API response received:", res.data);

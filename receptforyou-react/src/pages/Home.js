@@ -1,31 +1,37 @@
+//Huvudsidan för applikationen
 import React, { useState, useEffect } from "react";
 import Input from "../components/Input";
 import { useRecipes } from "../app/useRecipes";
 import RecipeList from "../components/RecipeList";
 import Favorites from "../pages/Favorites";
 
+//Fördefinierade ingredienser kopplade till olika humör
 const moodToIngredients = {
   tired: ["pasta", "cheese"],
   stressed: ["fast food", "wrap"],
   happy: ["fruit", "berries"],
 };
 
+//Home-komponenten
 export default function Home() {
   const [ingredients, setIngredients] = useState([]);
   const [filters, setFilters] = useState({ diet: "", intolerances: "" });
   const [mood, setMood] = useState("");
   const { recipes, fetchRecipes, loading } = useRecipes();
 
+  //Hämtar favoriter från localStorage vid start, annars tom lista
   const [favorites, setFavorites] = useState(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
   });
   const [showFavorites, setShowFavorites] = useState(false);
 
+  //Sparar favoriter till localStorage varje gång de ändras
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
   }, [favorites]);
 
+  //Lägger till eller tar bort recept från favoritlistan
   const toggleFavorite = (recipe) => {
     setFavorites((prev) => {
       const recipeId = recipe.idMeal || recipe.id;

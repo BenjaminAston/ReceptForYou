@@ -1,3 +1,4 @@
+//Komponent som visar en lista med receptkort
 import React from "react";
 import RecipeCard from "./RecipeCard";
 import '../styles/global.css';
