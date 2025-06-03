@@ -21,7 +21,7 @@ export const useRecipes = () => {
       // Skapa parametrar
       const params = {
         includeIngredients: ingredients.join(","),
-        number: 5,
+        number: 50,
         addRecipeInformation: true,
         apiKey: '6b1a9b4a2c004bc2af990763c803e766' // Din API-nyckel
       };
